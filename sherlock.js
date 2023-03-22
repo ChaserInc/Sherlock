@@ -75,7 +75,7 @@ var Sherlock = (function () {
       // parse date
       if ((dateMatch = matchDate(strNummed, time, startTime))) {
         strNummed = strNummed.replace(new RegExp(dateMatch), "");
-        dateIndex = str.indexOf(helpers.numToStr(dateMatch));
+        console.log(dateMatch, helpers.numToStr(dateMatch));
         str = str.replace(new RegExp(helpers.numToStr(dateMatch)), "$DATE$");
       }
 
