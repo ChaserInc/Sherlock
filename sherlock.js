@@ -80,6 +80,8 @@ var Sherlock = (function () {
       if ((timeMatch = matchTime(strNummed, time, startTime)))
         str = str.replace(new RegExp(helpers.numToStr(timeMatch)), "$TIME$");
 
+      console.log(dateMatch, timeMatch);
+
       ret.eventTitle = str;
 
       // if time data not given, then this is an all day event
