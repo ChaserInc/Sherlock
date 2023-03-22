@@ -68,17 +68,22 @@ var Sherlock = (function () {
       var ret = {},
         dateMatch = false,
         timeMatch = false,
+        dateIndex = -1,
+        timeIndex = -1,
         strNummed = helpers.strToNum(str);
 
       // parse date
       if ((dateMatch = matchDate(strNummed, time, startTime))) {
         strNummed = strNummed.replace(new RegExp(dateMatch), "");
+        dateIndex = str.indexOf(helpers.numToStr(dateMatch));
         str = str.replace(new RegExp(helpers.numToStr(dateMatch)), "$DATE$");
       }
 
       // parse time
       if ((timeMatch = matchTime(strNummed, time, startTime)))
-        str = str.replace(new RegExp(helpers.numToStr(timeMatch)), "$TIME$");
+        timeIndex = str.indexOf(helpers.numToStr(timeMatch));
+
+      str = str.replace(new RegExp(helpers.numToStr(timeMatch)), "$TIME$");
 
       ret.eventTitle = str;
 
@@ -92,7 +97,13 @@ var Sherlock = (function () {
       // check if date was parsed
       ret.isValidDate = !!(dateMatch || timeMatch);
 
-      return { ret, timeMatch, dateMatch };
+      return {
+        ret,
+        timeMatch: helpers.numToStr(timeMatch),
+        dateMatch: helpers.numToStr(dateMatch),
+        timeIndex,
+        dateIndex,
+      };
     },
     matchTime = function (str, time, startTime) {
       var match,
@@ -799,7 +810,13 @@ var Sherlock = (function () {
 
       while (!ret.startDate) {
         // parse the start date
-        var { ret: parserRet, timeMatch, dateMatch } = parser(tokens[0], date, null)
+        var {
+          ret: parserRet,
+          timeMatch,
+          dateMatch,
+          timeIndex,
+          dateIndex,
+        } = parser(tokens[0], date, null);
         if ((result = parserRet) !== null) {
           if (result.isAllDay)
             // set to midnight
@@ -808,8 +825,10 @@ var Sherlock = (function () {
           ret.isAllDay = result.isAllDay;
           ret.eventTitle = result.eventTitle;
           ret.startDate = result.isValidDate ? date : null;
-          ret.startTimeMatch = timeMatch
-          ret.startDateMatch = dateMatch
+          ret.startTimeMatch = timeMatch;
+          ret.startDateMatch = dateMatch;
+          ret.startTimeIndex = timeIndex;
+          ret.startDateIndex = dateIndex;
         }
 
         // if no time
@@ -828,7 +847,13 @@ var Sherlock = (function () {
         if (tokens.length > 1) {
           date = new Date(date.getTime());
           // parse the end date
-          var { ret: parserRet, timeMatch, dateMatch } = parser(tokens[2], date, ret);
+          var {
+            ret: parserRet,
+            timeMatch,
+            dateMatch,
+            timeIndex,
+            dateIndex,
+          } = parser(tokens[2], date, ret);
           if ((result = parserRet) !== null) {
             if (ret.isAllDay)
               // set to midnight
@@ -841,8 +866,10 @@ var Sherlock = (function () {
               ret.eventTitle = result.eventTitle;
 
             ret.endDate = result.isValidDate ? date : null;
-            ret.endDateMatch = dateMatch
-            ret.endTimeMatch = timeMatch
+            ret.endDateMatch = dateMatch;
+            ret.endTimeMatch = timeMatch;
+            ret.endTimeIndex = timeIndex;
+            ret.endDateIndex = dateIndex;
           }
         }
 
