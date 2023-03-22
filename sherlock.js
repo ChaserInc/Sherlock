@@ -684,9 +684,9 @@ var Sherlock = (function() {
       str = str.replace(patterns.shortFormY, '$2/$3/$1');
       // token the string to start and stop times
       var tokens = readConfig("disableRanges") ? [str.toLowerCase()] : str.toLowerCase().split(patterns.rangeSplitters);
-      console.log(tokens)
 
       patterns.rangeSplitters.lastIndex = 0;
+      console.log(ret, tokens, str)
 
       // normalize all dates to 0 milliseconds
       date.setMilliseconds(0);
