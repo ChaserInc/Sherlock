@@ -75,17 +75,17 @@ var Sherlock = (function () {
       // parse date
       if ((dateMatch = matchDate(strNummed, time, startTime))) {
         strNummed = strNummed.replace(new RegExp(dateMatch), "");
-        var datePattern = new RegExp(helpers.numToStr(dateMatch))
-        console.log(datePattern)
-        dateIndex = str.match(datePattern)
+        var datePattern = new RegExp(helpers.numToStr(dateMatch));
+        console.log(datePattern);
+        dateIndex = str.match(datePattern);
         str = str.replace(datePattern, "$DATE$");
       }
 
       // parse time
       if ((timeMatch = matchTime(strNummed, time, startTime))) {
-        var timePattern = new RegExp(helpers.numToStr(timeMatch))
-        console.log(timePattern)
-        timeIndex = str.match(timePattern)
+        var timePattern = new RegExp(helpers.numToStr(timeMatch));
+        console.log(timePattern);
+        timeIndex = str.match(timePattern);
         str = str.replace(timePattern, "$TIME$");
       }
 
@@ -251,13 +251,13 @@ var Sherlock = (function () {
           time.setFullYear(match[3], helpers.changeMonth(match[1]), match[2]);
           time.hasYear = true;
         } else time.setMonth(helpers.changeMonth(match[1]), match[2]);
-        return match;
+        return match[0];
       } else if ((match = str.match(patterns.dayMonth))) {
         if (match[3]) {
           time.setFullYear(match[3], helpers.changeMonth(match[2]), match[1]);
           time.hasYear = true;
         } else time.setMonth(helpers.changeMonth(match[2]), match[1]);
-        return match;
+        return match[0];
       } else if ((match = str.match(patterns.shortForm))) {
         var yearStr = match[3],
           year = null;
@@ -269,32 +269,32 @@ var Sherlock = (function () {
           time.setFullYear(year, match[1] - 1, match[2]);
           time.hasYear = true;
         } else time.setMonth(match[1] - 1, match[2]);
-        return match;
+        return match[0];
       } else if (
         (match = str.match(patterns.oxtDays) || str.match(patterns.oxtDaysUK))
       ) {
         switch (match[1].substr(0, 3)) {
           case "sun":
             helpers.changeDay(time, 0, "oxt");
-            return match;
+            return match[0];
           case "mon":
             helpers.changeDay(time, 1, "oxt");
-            return match;
+            return match[0];
           case "tue":
             helpers.changeDay(time, 2, "oxt");
-            return match;
+            return match[0];
           case "wed":
             helpers.changeDay(time, 3, "oxt");
-            return match;
+            return match[0];
           case "thu":
             helpers.changeDay(time, 4, "oxt");
-            return match;
+            return match[0];
           case "fri":
             helpers.changeDay(time, 5, "oxt");
-            return match;
+            return match[0];
           case "sat":
             helpers.changeDay(time, 6, "oxt");
-            return match;
+            return match[0];
           default:
             return false;
         }
@@ -302,25 +302,25 @@ var Sherlock = (function () {
         switch (match[2].substr(0, 3)) {
           case "sun":
             helpers.changeDay(time, 0, match[1]);
-            return match;
+            return match[0];
           case "mon":
             helpers.changeDay(time, 1, match[1]);
-            return match;
+            return match[0];
           case "tue":
             helpers.changeDay(time, 2, match[1]);
-            return match;
+            return match[0];
           case "wed":
             helpers.changeDay(time, 3, match[1]);
-            return match;
+            return match[0];
           case "thu":
             helpers.changeDay(time, 4, match[1]);
-            return match;
+            return match[0];
           case "fri":
             helpers.changeDay(time, 5, match[1]);
-            return match;
+            return match[0];
           case "sat":
             helpers.changeDay(time, 6, match[1]);
-            return match;
+            return match[0];
           default:
             return false;
         }
@@ -329,14 +329,14 @@ var Sherlock = (function () {
           helpers.relativeDateMatcher(match[4], time) &&
           helpers.inRelativeDateMatcher(match[1], match[2], match[3], time)
         )
-          return match;
+          return match[0];
         else return false;
       } else if ((match = str.match(patterns.relativeDate))) {
-        if (helpers.relativeDateMatcher(match[1], time)) return match;
+        if (helpers.relativeDateMatcher(match[1], time)) return match[0];
         else return false;
       } else if ((match = str.match(patterns.inRelativeDate))) {
         if (helpers.inRelativeDateMatcher(match[1], match[2], match[3], time))
-          return match;
+          return match[0];
         else return false;
       } else if ((match = str.match(new RegExp(patterns.days, "g")))) {
         // if multiple matches found, pick the best one
@@ -373,7 +373,7 @@ var Sherlock = (function () {
         if (day < time.getDate()) month++;
 
         time.setMonth(month, day);
-        return match;
+        return match[0];
       } else return false;
     },
     // Make some intelligent assumptions of what was meant, even when given incomplete information
