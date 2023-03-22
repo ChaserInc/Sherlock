@@ -80,10 +80,10 @@ var Sherlock = (function () {
       }
 
       // parse time
-      if ((timeMatch = matchTime(strNummed, time, startTime)))
+      if ((timeMatch = matchTime(strNummed, time, startTime))) {
         timeIndex = str.indexOf(helpers.numToStr(timeMatch));
-
-      str = str.replace(new RegExp(helpers.numToStr(timeMatch)), "$TIME$");
+        str = str.replace(new RegExp(helpers.numToStr(timeMatch)), "$TIME$");
+      }
 
       ret.eventTitle = str;
 
