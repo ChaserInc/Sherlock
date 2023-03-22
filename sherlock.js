@@ -99,8 +99,8 @@ var Sherlock = (function () {
 
       return {
         ret,
-        timeMatch: helpers.numToStr(timeMatch),
-        dateMatch: helpers.numToStr(dateMatch),
+        timeMatch,
+        dateMatch,
         timeIndex,
         dateIndex,
       };
