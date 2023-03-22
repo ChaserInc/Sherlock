@@ -75,14 +75,18 @@ var Sherlock = (function () {
       // parse date
       if ((dateMatch = matchDate(strNummed, time, startTime))) {
         strNummed = strNummed.replace(new RegExp(dateMatch), "");
-        dateIndex = str.match(new RegExp(helpers.numToStr(dateMatch)))
-        str = str.replace(new RegExp(helpers.numToStr(dateMatch)), "$DATE$");
+        var datePattern = new RegExp(helpers.numToStr(dateMatch))
+        console.log(datePattern)
+        dateIndex = str.match(datePattern)
+        str = str.replace(datePattern, "$DATE$");
       }
 
       // parse time
       if ((timeMatch = matchTime(strNummed, time, startTime))) {
-        timeIndex = str.match(new RegExp(helpers.numToStr(dateMatch)))
-        str = str.replace(new RegExp(helpers.numToStr(timeMatch)), "$TIME$");
+        var timePattern = new RegExp(helpers.numToStr(timeMatch))
+        console.log(timePattern)
+        timeIndex = str.match(timePattern)
+        str = str.replace(timePattern, "$TIME$");
       }
 
       ret.eventTitle = str;
