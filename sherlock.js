@@ -68,20 +68,20 @@ var Sherlock = (function () {
       var ret = {},
         dateMatch = false,
         timeMatch = false,
-        dateIndex = -1,
-        timeIndex = -1,
+        dateIndex = null,
+        timeIndex = null,
         strNummed = helpers.strToNum(str);
 
       // parse date
       if ((dateMatch = matchDate(strNummed, time, startTime))) {
         strNummed = strNummed.replace(new RegExp(dateMatch), "");
-        console.log(dateMatch, helpers.numToStr(dateMatch));
+        dateIndex = str.match(new RegExp(helpers.numToStr(dateMatch)))
         str = str.replace(new RegExp(helpers.numToStr(dateMatch)), "$DATE$");
       }
 
       // parse time
       if ((timeMatch = matchTime(strNummed, time, startTime))) {
-        timeIndex = str.indexOf(helpers.numToStr(timeMatch));
+        timeIndex = str.match(new RegExp(helpers.numToStr(timeMatch)))
         str = str.replace(new RegExp(helpers.numToStr(timeMatch)), "$TIME$");
       }
 
