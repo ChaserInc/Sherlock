@@ -76,7 +76,6 @@ var Sherlock = (function () {
       if ((dateMatch = matchDate(strNummed, time, startTime))) {
         strNummed = strNummed.replace(new RegExp(dateMatch), "");
         var datePattern = new RegExp(helpers.numToStr(dateMatch));
-        console.log(datePattern);
         dateIndex = str.match(datePattern);
         str = str.replace(datePattern, "$DATE$");
       }
@@ -84,7 +83,6 @@ var Sherlock = (function () {
       // parse time
       if ((timeMatch = matchTime(strNummed, time, startTime))) {
         var timePattern = new RegExp(helpers.numToStr(timeMatch));
-        console.log(timePattern);
         timeIndex = str.match(timePattern);
         str = str.replace(timePattern, "$TIME$");
       }
